@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Account</title>
+<style>
+  :root{
+    --nu-brown:#8a6240;
+    --nu-teal:#1f8a94;
+    --nu-dark-blue:#0f3a52;
+    --nu-light-blue:#4fc3d9;
+    --nu-gray-border:#cfcfcf;
+    --nu-text:#2b2b2b;
+    --nu-link:#2d7fd6;
+    color-scheme: light;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    color:var(--nu-text);
+    background:#ffffff;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+
+  /* top brown bar */
+  .top-bar{
+    background:var(--nu-brown);
+    height:36px;
+  }
+
+  /* header with logos */
+  .header{
+    padding:14px 14px 10px;
+    display:flex;
+    justify-content:center;
+  }
+  .logos{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  .logo-block{
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .logo-icon{
+    width:28px;
+    height:28px;
+    border-radius:3px;
+    background:linear-gradient(135deg,#d8a93f,#b9842a);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-weight:700;
+    font-size:12px;
+    font-family:Georgia,'Times New Roman',serif;
+    flex-shrink:0;
+  }
+  .logo-text{
+    font-family:Georgia,'Times New Roman',serif;
+    line-height:1.15;
+    color:#5c5c5c;
+    font-size:11px;
+    letter-spacing:0.3px;
+  }
+  .logo-text strong{
+    display:block;
+    color:#3f3f3f;
+    font-size:12px;
+  }
+  .divider{
+    width:1px;
+    height:30px;
+    background:#c9c9c9;
+  }
+
+  /* account switcher + logout */
+  .account-row{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+    padding:6px 14px 14px;
+  }
+  .account-select{
+    border:1px solid var(--nu-teal);
+    border-radius:4px;
+    padding:9px 12px;
+    width:100%;
+    max-width:320px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    font-size:13px;
+    color:#333;
+    background:#fff;
+  }
+  .account-select svg{width:13px;height:13px;flex-shrink:0;}
+  .logout-btn{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    background:none;
+    border:none;
+    font-size:13px;
+    color:#333;
+    cursor:pointer;
+    padding:0;
+  }
+  .logout-btn svg{color:var(--nu-teal);width:16px;height:16px;}
+
+  /* decorative pattern strip */
+  .pattern-strip{
+    height:16px;
+    background-repeat:repeat-x;
+    background-size:32px 16px;
+    background-image:radial-gradient(circle at 6px 6px, transparent 4px, #f2eee6 4px);
+    opacity:.6;
+  }
+
+  /* menu bar */
+  .menu-bar{
+    background:var(--nu-teal);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:11px 14px;
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:0.5px;
+    cursor:pointer;
+    border:none;
+    width:100%;
+    text-align:left;
+  }
+  .menu-bar svg{width:16px;height:16px;}
+
+  .breadcrumb{
+    padding:12px 14px 0;
+    font-size:13px;
+    color:#333;
+  }
+
+  /* profile card */
+  .profile-card{
+    margin:10px 12px 16px;
+    background:var(--nu-dark-blue);
+    border-radius:2px;
+    padding:20px 16px 18px;
+    text-align:center;
+    color:#fff;
+  }
+  .profile-card h1{
+    font-size:17px;
+    font-weight:700;
+    margin:0 0 12px;
+  }
+  .profile-id{
+    color:var(--nu-light-blue);
+    font-size:13px;
+    letter-spacing:0.3px;
+    margin-bottom:16px;
+  }
+  .profile-photo{
+    width:150px;
+    max-width:55%;
+    aspect-ratio:3/4;
+    margin:0 auto 18px;
+    background:#fff;
+    overflow:hidden;
+    display:block;
+  }
+  .profile-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .profile-links{
+    font-size:12px;
+    line-height:1.8;
+  }
+  .profile-links a{
+    color:var(--nu-light-blue);
+    text-decoration:underline;
+  }
+
+  /* payments section */
+  .payments-wrap{
+    margin:10px 12px 28px;
+  }
+  .tabs{
+    display:flex;
+    border:1px solid var(--nu-gray-border);
+  }
+  .tab{
+    flex:1;
+    text-align:center;
+    padding:12px 6px;
+    font-size:12px;
+    letter-spacing:0.3px;
+    border:none;
+    background:#fff;
+    color:#333;
+    cursor:pointer;
+    border-bottom:3px solid transparent;
+  }
+  .tab.active{
+    background:var(--nu-teal);
+    color:#fff;
+    border-bottom-color:var(--nu-teal);
+  }
+
+  .category{
+    border:1px solid var(--nu-gray-border);
+    border-top:none;
+    padding:14px 14px;
+  }
+  .category-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .category-head h2{
+    margin:0;
+    font-size:15px;
+    font-weight:400;
+    letter-spacing:0.3px;
+  }
+  .toggle-icon{
+    width:18px;
+    height:18px;
+    border:1.5px solid #333;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+  }
+  .toggle-icon::before{
+    content:"";
+    width:8px;
+    height:1.5px;
+    background:#333;
+  }
+  .category-underline{
+    width:32px;
+    height:2px;
+    background:var(--nu-teal);
+    margin:7px 0 12px;
+  }
+  .category-links{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .category-links a{
+    color:var(--nu-link);
+    text-decoration:none;
+    font-size:13px;
+  }
+  .category-links a:hover{
+    text-decoration:underline;
+  }
+</style>
+</head>
+<body>
+
+  <div class="top-bar"></div>
+
+  <header class="header">
+    <div class="logos">
+      <div class="logo-block">
+        <div class="logo-icon">N</div>
+        <div class="logo-text"><strong>NAZARBAYEV</strong>UNIVERSITY</div>
+      </div>
+      <div class="divider"></div>
+      <div class="logo-block">
+        <div class="logo-icon">N</div>
+        <div class="logo-text"><strong>NAZARBAYEV</strong>UNIVERSITY</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="account-row">
+    <div class="account-select">
+      <span id="userName">Yerkebulan Tabyssuly</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+    <button class="logout-btn">
+      Log Out
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="pattern-strip"></div>
+
+  <button class="menu-bar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    MENU
+  </button>
+
+  <div class="breadcrumb">&gt; My account</div>
+
+  <section class="profile-card">
+    <h1 id="userNameCard">Yerkebulan Tabyssuly</h1>
+    <div class="profile-id" id="userId">ID:202352557</div>
+    <!-- To swap in your own photo: rename your image file to "student_photo.jpg"
+         and place it in the same folder as this HTML file. -->
+    <div class="profile-photo">
+      <img src="student_photo.jpg" alt="Student photo">
+    </div>
+    <div class="profile-links">
+      <div><a href="#">Accession services agreement</a></div>
+      <div><a href="#">My account using regulation</a></div>
+    </div>
+  </section>
+
+  <section class="payments-wrap">
+    <div class="tabs">
+      <button class="tab active" type="button">MAKE A PAYMENT</button>
+      <button class="tab" type="button">MY PAYMENTS</button>
+    </div>
+
+    <div class="category">
+      <div class="category-head">
+        <h2>SPORTS</h2>
+        <span class="toggle-icon"></span>
+      </div>
+      <div class="category-underline"></div>
+      <div class="category-links">
+        <a href="#">Multi-visit pass</a>
+        <a href="#">All access pass 3m</a>
+        <a href="#">All access pass 6m</a>
+      </div>
+    </div>
+
+    <div class="category">
+      <div class="category-head">
+        <h2>OTHER</h2>
+        <span class="toggle-icon"></span>
+      </div>
+      <div class="category-underline"></div>
+      <div class="category-links">
+        <a href="#">Recovering ID</a>
+        <a href="#">Student fund</a>
+      </div>
+    </div>
+
+    <div class="category">
+      <div class="category-head">
+        <h2>DORMITORY</h2>
+        <span class="toggle-icon"></span>
+      </div>
+      <div class="category-underline"></div>
+      <div class="category-links">
+        <a href="#">Dormitory fee</a>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
